@@ -1,8 +1,7 @@
 # Marketing-Data-Mart-and-Visualization-of-Gambling-Customers-bwin-
 Bwin.com is an Online Based Gaming company and this Project aimed at Behavioral Analysis of 40k+ Users of Bwin and Marketing Datamart for and a Shiny app to visualize the Results.
 
-# Keywords : R, Shiny, Statistics, Data Visualization, Marketing Analytics, Segmentation, LifetimeValue, ARPU,GGR,
-# Profit Margin,Frequency, LiveAction,FixedOdds, Casino Boss Media and Casino Chartwell, Poker, SuperToto, GameVS and GamesBwin   
+# Keywords : R, Shiny, Statistics, Data Visualization, Marketing Analytics, Segmentation, LifetimeValue, ARPU,GGR,Profit Margin,Frequency, LiveAction,FixedOdds, Casino Boss Media and Casino Chartwell, Poker, SuperToto, GameVS and GamesBwin   
 
 Quick Link to Shiny app : 
 
