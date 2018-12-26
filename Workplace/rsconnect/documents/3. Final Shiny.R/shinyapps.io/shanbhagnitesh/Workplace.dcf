@@ -1,0 +1,13 @@
+name: Workplace
+title: Workplace
+username:
+account: shanbhagnitesh
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 616237
+bundleId: 1760884
+url: https://shanbhagnitesh.shinyapps.io/Workplace/
+when: 1544710801.89509
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 1.Data Cleaning.R|2.Merging.R|AnalyticDataInternetGambling.sas7bdat|application.xlsx|Basetable.csv|Continent.xlsx|country.xlsx|days.xlsx|Markdown.html|Markdown.Rmd|Markdown_Group6.pdf|months.xlsx|RawDataIDemographics.sas7bdat|RawDataIIIPokerChipConversions.sas7bdat|RawDataIIUserDailyAggregation.sas7bdat|region.xlsx|sumstats.PNG
