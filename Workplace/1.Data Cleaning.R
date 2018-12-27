@@ -54,8 +54,6 @@ RawDataIIIPokerChipConversions$FirstPay <- NULL
 
 RawDataIIIPokerChipConversions$TransAmount <- ifelse(RawDataIIIPokerChipConversions$TransAmount < 0 , 0, RawDataIIIPokerChipConversions$TransAmount)
 
-names(RawDataIIIPokerChipConversions)[2]<-paste("TransDate")
-names(RawDataIIIPokerChipConversions)[3]<-paste("TransTime")
 
 RawDataIIIPokerChipConversions$TransTime <- format(as.POSIXct(RawDataIIIPokerChipConversions$TransTime,
                                                                format="%H:%M:%S"),"%H")
@@ -131,16 +129,6 @@ RawDataIIIPokerChipConversions <-ddply(RawDataIIIPokerChipConversions,.(UserID),
 
 
 
-########################################################################################################
-RawDataIIIPokerChipConversions <- unique(RawDataIIIPokerChipConversions)
-
-RawDataIIIPokerChipConversions$Mean_Amount_Sold <- ifelse(is.na(RawDataIIIPokerChipConversions$Mean_Amount_Sold), 0, RawDataIIIPokerChipConversions$Mean_Amount_Sold)
-RawDataIIIPokerChipConversions$Mean_Amount_Bought <- ifelse(is.na(RawDataIIIPokerChipConversions$Mean_Amount_Bought), 0, RawDataIIIPokerChipConversions$Mean_Amount_Bought)
-RawDataIIIPokerChipConversions$Max_Amount_Bought <- ifelse(RawDataIIIPokerChipConversions$Max_Amount_Bought == -Inf,0,RawDataIIIPokerChipConversions$Max_Amount_Bought )
-RawDataIIIPokerChipConversions$Max_Amount_Sold <- ifelse(RawDataIIIPokerChipConversions$Max_Amount_Sold == -Inf,0,RawDataIIIPokerChipConversions$Max_Amount_Sold )
-
-
-
 #########################################################################################################
 ################################# RawDataIDemographics ##################################################
 #########################################################################################################
@@ -157,22 +145,9 @@ RawDataIDemographics <- RawDataIDemographics %>% filter(FirstPay >= as.Date("200
 #### Reading Country Language and Application Id Description instead of just Codes 
 RawDataIDemographics <- merge(x = RawDataIDemographics, y = country, by = "Country", all.x = TRUE)
 RawDataIDemographics <- merge(x = RawDataIDemographics, y = region, by = "Language", all.x = TRUE)
-RawDataIDemographics <- merge(x = RawDataIDemographics, y = application,
-                              by = "ApplicationID", all.x = TRUE)
-RawDataIDemographics$Country <- NULL
-RawDataIDemographics$Language <- NULL
-RawDataIDemographics$ApplicationID <- NULL
+RawDataIDemographics <- merge(x = RawDataIDemographics, y = application,by = "ApplicationID", all.x = TRUE)
 
 RawDataIDemographics$Gender <- ifelse(RawDataIDemographics$Gender == 0,"Female","Male" )
-
-
-RawDataIDemographics$RegDate <- ifelse(is.null(RawDataIDemographics$RegDate),0,RawDataIDemographics$RegDate) 
-RawDataIDemographics$FirstAct <- ifelse(is.null(RawDataIDemographics$FirstAct),0,RawDataIDemographics$FirstAct) 
-
-RawDataIDemographics$FirstSp <- ifelse(RawDataIDemographics$FirstSp == "NULL",0,RawDataIDemographics$FirstSp) 
-RawDataIDemographics$FirstCa <- ifelse(RawDataIDemographics$FirstCa == "NULL",0,RawDataIDemographics$FirstCa) 
-RawDataIDemographics$FirstGa <- ifelse(RawDataIDemographics$FirstGa == "NULL",0,RawDataIDemographics$FirstGa) 
-RawDataIDemographics$FirstPo <- ifelse(RawDataIDemographics$FirstPo == "NULL",0,RawDataIDemographics$FirstPo) 
 
 
 apply(RawDataIDemographics, 2, function(x) any(is.null(x)))
@@ -190,114 +165,35 @@ apply(RawDataIDemographics, 2, function(x) any(is.null(x)))
 length(unique(AnalyticDataInternetGambling$USERID))
 
 AnalyticDataInternetGambling <- merge(x = AnalyticDataInternetGambling, y = region, by = "Language", all.x = TRUE)
-colnames(AnalyticDataInternetGambling)[2] <- "Country"
-colnames(AnalyticDataInternetGambling)[3] <- "Language"
 
 AnalyticDataInternetGambling <- merge(x = AnalyticDataInternetGambling, y = country, by = "Country", all.x = TRUE)
 
-AnalyticDataInternetGambling$`Language Description.x` <- NULL
-AnalyticDataInternetGambling$`Language Description.y` <- NULL
 
 AnalyticDataInternetGambling <- merge(x = AnalyticDataInternetGambling, y = region, by = "Language", all.x = TRUE)
 
-AnalyticDataInternetGambling$Language <- NULL
-AnalyticDataInternetGambling$Country <- NULL
 
 AnalyticDataInternetGambling$GENDER <- ifelse(AnalyticDataInternetGambling$GENDER == 0,"Female","Male" )
 
-apply(AnalyticDataInternetGambling, 2, function(x) any(is.null(x)))
 AnalyticDataInternetGambling$RegistrationDate <- as.Date(AnalyticDataInternetGambling$RegistrationDate)
-AnalyticDataInternetGambling$FOTotalStakes <- as.numeric(AnalyticDataInternetGambling$FOTotalStakes)
-AnalyticDataInternetGambling$FOTotalWinnings <- as.numeric(AnalyticDataInternetGambling$FOTotalWinnings)
 
-AnalyticDataInternetGambling$FOTotalBets <- as.numeric(AnalyticDataInternetGambling$FOTotalBets)
-AnalyticDataInternetGambling$FOFirstActiveDate <- as.Date(AnalyticDataInternetGambling$FOFirstActiveDate)
-
-AnalyticDataInternetGambling$FOLastActiveDate <- as.Date(AnalyticDataInternetGambling$FOLastActiveDate)
-
-AnalyticDataInternetGambling$FOTotalDaysActive <- as.numeric(AnalyticDataInternetGambling$FOTotalDaysActive)
-AnalyticDataInternetGambling$LATotalStakes <- as.numeric(AnalyticDataInternetGambling$LATotalStakes)
-
-AnalyticDataInternetGambling$LATotalStakes <- ifelse(is.na(AnalyticDataInternetGambling$LATotalStakes),0,AnalyticDataInternetGambling$LATotalStakes) 
-AnalyticDataInternetGambling$LATotalWinnings <- ifelse(is.na(AnalyticDataInternetGambling$LATotalWinnings),0,AnalyticDataInternetGambling$LATotalWinnings) 
-
-AnalyticDataInternetGambling$LATotalBets <- ifelse(is.na(AnalyticDataInternetGambling$LATotalBets),0,AnalyticDataInternetGambling$LATotalBets) 
-
-AnalyticDataInternetGambling$LAFirstActiveDate <- ifelse(is.na(AnalyticDataInternetGambling$LAFirstActiveDate),0,as.character(AnalyticDataInternetGambling$LAFirstActiveDate))
-
-AnalyticDataInternetGambling$LALastActiveDate <- ifelse(is.na(AnalyticDataInternetGambling$LALastActiveDate),0,as.character(AnalyticDataInternetGambling$LALastActiveDate))
-
-AnalyticDataInternetGambling$LATotalDaysActive <- ifelse(is.na(AnalyticDataInternetGambling$LATotalDaysActive),0,as.character(AnalyticDataInternetGambling$LATotalDaysActive))
-
-AnalyticDataInternetGambling$FirstSportsActiveDate <- ifelse(is.na(AnalyticDataInternetGambling$FirstSportsActiveDate),0,as.character(AnalyticDataInternetGambling$FirstSportsActiveDate))
-
-AnalyticDataInternetGambling$GENDER <- ifelse(is.na(AnalyticDataInternetGambling$GENDER),"Not Known",AnalyticDataInternetGambling$GENDER)
-
-AnalyticDataInternetGambling$FOTotalWinnings <- ifelse(is.na(AnalyticDataInternetGambling$FOTotalWinnings),0,AnalyticDataInternetGambling$FOTotalWinnings)
-
-AnalyticDataInternetGambling$FOTotalBets <- ifelse(is.na(AnalyticDataInternetGambling$FOTotalBets),0,AnalyticDataInternetGambling$FOTotalBets)
-
-AnalyticDataInternetGambling$FOFirstActiveDate <- ifelse(is.na(AnalyticDataInternetGambling$FOFirstActiveDate),0,AnalyticDataInternetGambling$FOFirstActiveDate)
-
-AnalyticDataInternetGambling$FOLastActiveDate <- ifelse(is.na(AnalyticDataInternetGambling$FOLastActiveDate),0,AnalyticDataInternetGambling$FOLastActiveDate)
-
-AnalyticDataInternetGambling$FOTotalDaysActive <- ifelse(is.na(AnalyticDataInternetGambling$FOTotalDaysActive),0,AnalyticDataInternetGambling$FOTotalDaysActive)
-
-AnalyticDataInternetGambling$FOTotalStakes <- ifelse(is.na(AnalyticDataInternetGambling$FOTotalStakes),0,AnalyticDataInternetGambling$FOTotalStakes) 
-
-
-
-###############################################################################################
-###############################################################################################
-###############################################################################################
-
-# Checking if there are any NA's in the table
-
-apply(AnalyticDataInternetGambling, 2, function(x) any(is.na(x)))
-apply(RawDataIDemographics, 2, function(x) any(is.na(x)))
-apply(RawDataIDemographics, 2, function(x) any(is.na(x)))
-
+######################################################################################################################
 
 RawDataIIIPokerChipConversions$LengthOfRelation <- RawDataIIIPokerChipConversions$Last_TransDAte - RawDataIIIPokerChipConversions$First_TransDAte
-RawDataIIIPokerChipConversions$First_TransDAte <- NULL
 
 days <- read_excel("days.xlsx")
 
 RawDataIIIPokerChipConversions <- merge(x = RawDataIIIPokerChipConversions, y = days, by = "Most_Played_Month", all.x = TRUE)
 
-RawDataIIIPokerChipConversions$Most_Played_Month <- NULL
 
-unique(RawDataIIIPokerChipConversions$Most_PlayedMonth)
 
 RawDataIDemographics$Diff <- as.Date(RawDataIDemographics$FirstPay,"%Y%m%d")-as.Date(RawDataIDemographics$FirstAct,"%Y%m%d")
 
-RawDataIDemographics$Diff <- NULL
-RawDataIDemographics$FirstAct <- NULL
 
 RawDataIDemographics$DaysToStartSP <- as.Date(RawDataIDemographics$FirstSp,"%Y%m%d")-as.Date(RawDataIDemographics$RegDate,"%Y-%m-%d")
-RawDataIDemographics$DaysToStartSP <- ifelse(is.na(RawDataIDemographics$DaysToStartSP),"Not Played",RawDataIDemographics$DaysToStartSP) 
-
-
 RawDataIDemographics$DaysToStartCa <- as.Date(RawDataIDemographics$FirstCa,"%Y%m%d")-as.Date(RawDataIDemographics$RegDate,"%Y-%m-%d")
-RawDataIDemographics$DaysToStartCa <- ifelse(is.na(RawDataIDemographics$DaysToStartCa),"Not Played",RawDataIDemographics$DaysToStartCa) 
-
 RawDataIDemographics$DaysToStartGa <- as.Date(RawDataIDemographics$FirstGa,"%Y%m%d")-as.Date(RawDataIDemographics$RegDate,"%Y-%m-%d")
-RawDataIDemographics$DaysToStartGa <- ifelse(is.na(RawDataIDemographics$DaysToStartGa),"Not Played",RawDataIDemographics$DaysToStartGa) 
-
 RawDataIDemographics$DaysToStartPo <- as.Date(RawDataIDemographics$FirstPo,"%Y%m%d")-as.Date(RawDataIDemographics$RegDate,"%Y-%m-%d")
 RawDataIDemographics$DaysToStartPo <- ifelse(is.na(RawDataIDemographics$DaysToStartPo),"Not Played",RawDataIDemographics$DaysToStartPo) 
-
-
-################################################################
-
-# deleting the row that are not relevant for the AnalyticDataInternet Gambling table
-
-AnalyticDataInternetGambling$FOFirstActiveDate <- NULL
-AnalyticDataInternetGambling$FOLastActiveDate <- NULL
-AnalyticDataInternetGambling$LAFirstActiveDate <- NULL
-AnalyticDataInternetGambling$LALastActiveDate <- NULL
-AnalyticDataInternetGambling$FirstSportsActiveDate <- NULL
-
 
 
 ####################################################################################################
@@ -323,19 +219,7 @@ DailyAggregation$FirstPay <- NULL
 #unique User Id
 uniqueUserId <- unique(DailyAggregation$UserID)
 
-#Creating Daily Aggregation to clean
-DailyAggregation_clean <- DailyAggregation
-DailyAggregation_clean$Stakes <- ifelse(DailyAggregation_clean$Stakes < 0, 0,DailyAggregation_clean$Stakes )
 
-DailyAggregation_clean$Winnings <- ifelse(DailyAggregation_clean$Winnings < 0, 0,DailyAggregation_clean$Winnings)
-
-DailyAggregation_clean$Bets <- ifelse(DailyAggregation_clean$Bets < 0, 0,DailyAggregation_clean$Bets)
-
-# checking for missing value in the dataset
-apply(DailyAggregation_clean, 2, function(x) any(is.na(x)))
-
-# changing the UserID as integer
-DailyAggregation_clean$UserID <- as.integer(DailyAggregation_clean$UserID)
 
 # summary stats for Sports products (fixed odds, and live action)
 DailyAggr_Sp <- DailyAggregation_clean %>% filter(ProductID == 1 | ProductID == 2)
