@@ -2,7 +2,6 @@
 ################# Part 2: MERGING TABLES ########################
 #################################################################
 
-names(AnalyticDataInternetGambling)[1] <- "UserID"
 
 
 # We are keeping only the column of interest for the 4 categories of plays to construct the basetable
@@ -44,25 +43,14 @@ Games$Profit_Ga <- Games$Sum_Stakes_Ga - Games$Sum_Winnings_Ga
 
 # Creating the profit made by online Website on each player that played Poker
 Poker$Profit_Po <- Poker$Total_Amount_Bought - Poker$Total_Amount_Sold
-colnames(Poker)
-names(Poker)[2] <- "LastDay_Po"
-names(Poker)[3] <- "Most_Played_Day_Po"
-names(Poker)[4] <- "No_Days_Played_Po"
-names(Poker)[7] <- "Length_Play_Po"
-names(Poker)[8] <- "Most_Played_Month_Po"
 
 
 # Creating the profit made by online Website on each player that played Sports
 Sports_final$Profit_Sp <-  Sports_final$Sum_Stakes_Sp - Sports_final$Sum_Winnings_Sp
-colnames(Sports_final)
 
 Sports_final$Profit_FO <-  Sports_final$FOTotalStakes - Sports_final$FOTotalWinnings
-Sports_final$FOTotalStakes <- NULL
-Sports_final$FOTotalWinnings <- NULL
 
 Sports_final$Profit_LA <- Sports_final$LATotalStakes - Sports_final$LATotalWinnings
-Sports_final$LATotalStakes <- NULL
-Sports_final$LATotalWinnings <- NULL
 
 ####################################################################################################################################################################################
 
@@ -75,31 +63,11 @@ Basetable <- merge(x=Basetable, y=Games, by = "UserID", all.x = T)
 Basetable <- merge(x=Basetable, y=Casino, by = "UserID", all.x = T)
 colnames(Basetable)
 
-Basetable$Sum_Stakes_Sp <- ifelse(is.na(Basetable$Sum_Stakes_Sp),0,Basetable$Sum_Stakes_Sp)
-Basetable$Sum_Stakes_Ga <- ifelse(is.na(Basetable$Sum_Stakes_Ga),0,Basetable$Sum_Stakes_Ga)
-Basetable$Sum_Stakes_Ca <- ifelse(is.na(Basetable$Sum_Stakes_Ca),0,Basetable$Sum_Stakes_Ca)
-Basetable$Total_Amount_Bought <- ifelse(is.na(Basetable$Total_Amount_Bought),0,Basetable$Total_Amount_Bought)
 
 Basetable$TotalStakes <- Basetable$Sum_Stakes_Sp + Basetable$Sum_Stakes_Ga+Basetable$Sum_Stakes_Ca + Basetable$Total_Amount_Bought
 
-Basetable$Sum_Winnings_Sp <- ifelse(is.na(Basetable$Sum_Winnings_Sp),0,Basetable$Sum_Winnings_Sp)
-Basetable$Sum_Winnings_Ga <- ifelse(is.na(Basetable$Sum_Winnings_Ga),0,Basetable$Sum_Winnings_Ga)
-Basetable$Sum_Winnings_Ca <- ifelse(is.na(Basetable$Sum_Winnings_Ca),0,Basetable$Sum_Winnings_Ca)
-Basetable$Total_Amount_Sold <- ifelse(is.na(Basetable$Total_Amount_Sold),0,Basetable$Total_Amount_Sold)
-Basetable$Gender <- ifelse(is.na(Basetable$Gender),"Female",Basetable$Gender)
-
 Basetable$TotalWinnings <- Basetable$Sum_Winnings_Sp + Basetable$Sum_Winnings_Ga + Basetable$Sum_Winnings_Ca + Basetable$Total_Amount_Sold
 
-Basetable$Sum_Stakes_Ca <- NULL
-Basetable$Sum_Stakes_Ga <- NULL
-Basetable$Sum_Stakes_Sp <- NULL
-
-Basetable$Total_Amount_Bought <- NULL
-
-Basetable$Sum_Winnings_Ca <- NULL
-Basetable$Sum_Winnings_Ga <- NULL
-Basetable$Sum_Winnings_Sp <- NULL
-Basetable$Total_Amount_Sold <- NULL
 #Reordering the columns
 
 Basetable <- Basetable[,c("UserID","Gender","CountryName","Language Description","Application Description","AGE","RegDate",
@@ -118,34 +86,6 @@ Basetable <- Basetable[,c("UserID","Gender","CountryName","Language Description"
 
 # Transforming FirstPO as a Date
 Basetable$FirstPo <- as.Date(Basetable$FirstPo, "%Y%m%d")                                                   
-
-### Replacing every NA values in numeric fields as 0
-Basetable$Total_Bets_Sp <- ifelse(is.na(Basetable$Total_Bets_Sp),0,Basetable$Total_Bets_Sp)
-Basetable$Length_Play_Sp <- ifelse(is.na(Basetable$Length_Play_Sp),0,Basetable$Length_Play_Sp)
-Basetable$No_Days_Played_Sp <- ifelse(is.na(Basetable$No_Days_Played_Sp),0,Basetable$No_Days_Played_Sp)
-Basetable$Profit_FO <- ifelse(is.na(Basetable$Profit_FO),0,Basetable$Profit_FO)
-Basetable$Profit_LA <- ifelse(is.na(Basetable$Profit_LA),0,Basetable$Profit_LA)
-Basetable$Profit_Po <- ifelse(is.na(Basetable$Profit_Po),0,Basetable$Profit_Po)
-Basetable$Profit_Ga <- ifelse(is.na(Basetable$Profit_Ga),0,Basetable$Profit_Ga)
-Basetable$Profit_Ca <- ifelse(is.na(Basetable$Profit_Ca),0,Basetable$Profit_Ca)
-Basetable$FOTotalBets <- ifelse(is.na(Basetable$FOTotalBets),0,Basetable$FOTotalBets)
-Basetable$FOTotalDaysActive <- ifelse(is.na(Basetable$FOTotalDaysActive),0,Basetable$FOTotalDaysActive)
-Basetable$LATotalBets <- ifelse(is.na(Basetable$LATotalBets),0,Basetable$LATotalBets)
-Basetable$LATotalDaysActive <- ifelse(is.na(Basetable$LATotalDaysActive),0,Basetable$LATotalDaysActive)
-Basetable$Profit_Sp <- ifelse(is.na(Basetable$Profit_Sp),0,Basetable$Profit_Sp)
-Basetable$Length_Play_Po <- ifelse(is.na(Basetable$Length_Play_Po),0,Basetable$Length_Play_Po)
-Basetable$No_Days_Played_Po <- ifelse(is.na(Basetable$No_Days_Played_Po),0,Basetable$No_Days_Played_Po)
-Basetable$Total_Bets_Ga <- ifelse(is.na(Basetable$Total_Bets_Ga),0,Basetable$Total_Bets_Ga)
-Basetable$Length_Play_Ga <- ifelse(is.na(Basetable$Length_Play_Ga),0,Basetable$Length_Play_Ga)
-Basetable$No_Days_Played_Ga <- ifelse(is.na(Basetable$No_Days_Played_Ga),0,Basetable$No_Days_Played_Ga)
-Basetable$Total_Bets_Ca <- ifelse(is.na(Basetable$Total_Bets_Ca),0,Basetable$Total_Bets_Ca)
-Basetable$Length_Play_Ca <- ifelse(is.na(Basetable$Length_Play_Ca),0,Basetable$Length_Play_Ca)
-Basetable$No_Days_Played_Ca <- ifelse(is.na(Basetable$No_Days_Played_Ca),0,Basetable$No_Days_Played_Ca)
-
-Basetable$TotalStakes <- ifelse(is.na(Basetable$TotalStakes),0,Basetable$TotalStakes)
-Basetable$TotalWinnings <- ifelse(is.na(Basetable$TotalWinnings),0,Basetable$TotalWinnings)
-
-
 
 ####### CREATING NEW VARIABLES FOR THE ANALYSIS
 
@@ -247,56 +187,6 @@ col_order <- c("UserID","Gender","CountryName","Continents","Language Descriptio
                "No_Months_Played_Sp","No_Months_Played_Ca","No_Months_Played_Ga","Churn_Loyalty","Frequency")
 
 Basetable <- Basetable[,col_order]
-colnames(Basetable)
-colnames(Basetable)[5] <- "Language"
-colnames(Basetable)[6] <- "Application"
-Basetable$Most_Played_Month_Sp <- ifelse(Basetable$Most_Played_Month_Sp == 1, 'Jan',
-                                  ifelse((Basetable$Most_Played_Month_Sp == 2),'Feb',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 3,'Mar',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 4,'April',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 5,'May',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 6,'June',       
-                                  ifelse(Basetable$Most_Played_Month_Sp == 7,'July',              
-                                  ifelse(Basetable$Most_Played_Month_Sp == 8,'Aug',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 9,'Sep',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 10,'Oct',       
-                                  ifelse(Basetable$Most_Played_Month_Sp == 11,'Nov',
-                                  ifelse(Basetable$Most_Played_Month_Sp == 12,'Dec','Not Played'       
-                                   ))))))))))))
-
-
-Basetable$Most_Played_Month_Ga <- ifelse(Basetable$Most_Played_Month_Ga == 1, 'Jan',
-                                  ifelse((Basetable$Most_Played_Month_Ga == 2),'Feb',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 3,'Mar',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 4,'April',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 5,'May',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 6,'June',       
-                                  ifelse(Basetable$Most_Played_Month_Ga == 7,'July',              
-                                  ifelse(Basetable$Most_Played_Month_Ga == 8,'Aug',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 9,'Sep',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 10,'Oct',       
-                                  ifelse(Basetable$Most_Played_Month_Ga == 11,'Nov',
-                                  ifelse(Basetable$Most_Played_Month_Ga == 12,'Dec','Not Played'       
-                                            ))))))))))))
-
-
-Basetable$Most_Played_Month_Ca <- ifelse(Basetable$Most_Played_Month_Ca == 1, 'Jan',
-                                  ifelse((Basetable$Most_Played_Month_Ca == 2),'Feb',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 3,'Mar',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 4,'April',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 5,'May',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 6,'June',       
-                                  ifelse(Basetable$Most_Played_Month_Ca == 7,'July',              
-                                  ifelse(Basetable$Most_Played_Month_Ca == 8,'Aug',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 9,'Sep',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 10,'Oct',       
-                                  ifelse(Basetable$Most_Played_Month_Ca == 11,'Nov',
-                                  ifelse(Basetable$Most_Played_Month_Ca == 12,'Dec','Not Played'       
-                                   ))))))))))))
-
-                                                                                                                                           
-
-
 ###################
 rm(list=setdiff(ls(), 
                 c("Basetable",
