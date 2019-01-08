@@ -18,7 +18,7 @@ Metrics section for details.
 
 • Profit Margin - [Calculated] Total profit margin from the user for bwin.
 
-• Lifetime Value (Indicative) - [Calculated] Descriptive approximate lifetime value of the user for
+• Customer Lifetime Value(CLV) (Indicative) - [Calculated] Descriptive approximate lifetime value of the user for
 bwin over his active play period.
 
 • Total Bets Placed - [Calculated] The Total Bets Placed by the User (excluding Poker)
